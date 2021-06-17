@@ -24,7 +24,7 @@ void headMessage(const char *message);
 void welcomeMessage();
 void exitMessage();
 void insert(ListNodePtr *sPtr, char *bookname,int id,char *author,float price);
-char delete(ListNodePtr *sPtr, int id);
+char deletebook(ListNodePtr *sPtr, int id);
 int isEmpty(ListNodePtr sPtr);
 void displayAll(ListNodePtr currentPtr);
 void search();
@@ -57,9 +57,17 @@ int main(void)
         printf("\n\t\t\t5.Clear the books data.");
         printf("\n\t\t\t6.Update book.");
         printf("\n\t\t\t7.Exit.");
+        do{
         printf("\n\n\n\t\t\tEnter choice => ");
-        scanf("%d", &choice);
-
+        fflush(stdin);
+        scanf("%u", &choice);
+        vaildnum=isNumVaild(&choice);
+         if(!vaildnum)
+                {
+                    printf("\n\t\t\tInvaild Chioce\n");
+                }
+            }
+            while(!vaildnum);
         switch (choice)
         {
         case 1: //insert new book
@@ -153,7 +161,7 @@ int main(void)
                 scanf("\n%d", &id_value);
 
 // if character is found, remove it
-                if (delete(&startPtr, id_value))   // remove item
+                if (deletebook(&startPtr, id_value))   // remove item
                 {
                     system("cls");
                     headMessage("DELETE BOOKS");
@@ -202,7 +210,6 @@ int main(void)
         default:
             puts("\n\t\t\tInvalid choice.\n");
             system("pause");
-
             break;
         }
     }
@@ -367,7 +374,7 @@ void insert(ListNodePtr *sPtr, char *bookname,int id,char *author,float price)
 }
 
 // delete a list element
-char delete(ListNodePtr *sPtr, int id)
+char deletebook(ListNodePtr *sPtr, int id)
 {
 
     if (id == (*sPtr)->l.id)
@@ -439,6 +446,7 @@ void displayAll(ListNodePtr currentPtr)
 void search ()
 {
     int id;
+    int vaildnum=0;
     ListNodePtr current = startPtr;
     headMessage("SEARCH");
     if(startPtr == NULL)
@@ -449,8 +457,20 @@ void search ()
     }
     else
     {
-        printf("\n\t\t\tEnter Id :");
-        scanf("%d",&id);
+
+       do
+                {
+                    printf("\n\t\t\tBook ID NO: ");
+                    fflush(stdin);
+                    scanf("%d",&id);
+                    vaildnum=isNumVaild(&id);
+                    if(!vaildnum)
+                    {
+                        printf("\n\t\t\tId contains invalid numbers. Please enter again.");
+
+                    }
+                }
+                while(!vaildnum);
         system("cls");
         headMessage("SEARCH");
         while (current != NULL)
